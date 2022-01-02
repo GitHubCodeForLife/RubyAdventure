@@ -22,12 +22,15 @@ public class RubyController : MonoBehaviour
     public GameObject bulletPrefab;
     public float force = 300f;
     private AudioSource audioSource;
+    public AudioClip audioLaunch;
+
     private void Awake()
     {
         currentHealth = 5;
         audioSource = gameObject.GetComponent<AudioSource>();
         invicibleTimer = gameObject.AddComponent(typeof(Timer)) as Timer;
         invicibleTimer.maxTime = 3;
+
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
@@ -43,6 +46,7 @@ public class RubyController : MonoBehaviour
             lookDirection.Set(move.x, move.y);
             lookDirection.Normalize();
         }
+
         animator.SetFloat("Move X", lookDirection.x);
         animator.SetFloat("Move Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
@@ -68,6 +72,7 @@ public class RubyController : MonoBehaviour
 
     private void Launch()
     {
+        PlaySound(audioLaunch);
         animator.SetTrigger("Launch");
         GameObject bulletObject = Instantiate(bulletPrefab, rb2d.position, Quaternion.identity);
         Bullet bullet = bulletObject.GetComponent<Bullet>();
@@ -99,6 +104,13 @@ public class RubyController : MonoBehaviour
     }
     public void PlaySound(AudioClip audioClip)
     {
+        //audioSource.Stop();
         audioSource.PlayOneShot(audioClip);
+    }
+    public void SetDestination(Vector2 position)
+    {
+        Debug.Log("Move to position " + position);
+        //rb2d.MovePosition(position);
+        transform.position = position;
     }
 }

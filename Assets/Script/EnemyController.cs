@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour
 
     ParticleSystem particleSystem;
     public AudioClip audioClip;
+    public AudioClip audioFix;
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,10 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         if (!broken)
+        {
+         
             return;
+        } 
         movingTimer -= Time.deltaTime;
         if (movingTimer < 0)
         {
@@ -72,10 +77,15 @@ public class EnemyController : MonoBehaviour
 
     public void Fix()
     {
+        PlaySound(audioFix);
         animator.SetTrigger("Fixed");
         broken = false;
         rb2d.simulated = false;
         particleSystem.Stop();
     }
-
+    public void PlaySound(AudioClip audioClip)
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(audioClip);
+    }
 }
