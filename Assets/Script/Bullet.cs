@@ -23,7 +23,12 @@ public class Bullet : MonoBehaviour
         {
             EnemyController enemy = collision.GetComponent<EnemyController>();
             if (enemy != null)
+            {
                 enemy.Fix();
+                RubyController rubyController = FindObjectOfType<RubyController>();
+                if (rubyController != null)
+                    rubyController.FixSuccuess();
+            }
             Debug.Log("Bullet - hit " + collision.name);
             Destroy(gameObject);
         }

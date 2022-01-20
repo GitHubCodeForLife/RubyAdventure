@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -33,10 +34,18 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        // SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu");
     }
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public void SaveGame()
+    {
+        RubyController ruby= FindObjectOfType<RubyController>();
+        if (ruby != null) ruby.SaveGame();
+        Time.timeScale = 1f;
+        pauseMenuUI.SetActive(false);
+        SceneManager.LoadScene("Menu");
     }
 }
